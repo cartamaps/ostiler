@@ -1,36 +1,46 @@
-# Welcome to Remix!
+# OS Tiler
 
-- [Remix Docs](https://remix.run/docs)
+An open source tile server and manager leveraging PMTiles.
 
-## Development
+## Inspiration
 
-Start the Remix development asset server and the Express server by running:
+Todo
 
-```sh
-npm run dev
+## Getting Started
+
+Todo
+
+## Worker
+```bash
+npx wrangler generate ostiler-server
 ```
 
-This starts your app in development mode, which will purge the server require cache when Remix rebuilds assets so you don't need a process manager restarting the express server.
-
-## Deployment
-
-First, build your app for production:
-
-```sh
-npm run build
+## R2 Bucket
+```bash
+npx wrangler r2 bucket create tiles
 ```
 
-Then run the app in production mode:
-
-```sh
-npm start
+### Bucket CORS Policy
+```json
+[
+  {
+    "AllowedOrigins": [
+      "*"
+    ],
+    "AllowedMethods": [
+      "GET",
+      "HEAD",
+      "PUT",
+      "POST"
+    ],
+    "AllowedHeaders": [
+      "range",
+      "if-match"
+    ],
+    "ExposeHeaders": [
+      "etag"
+    ],
+    "MaxAgeSeconds": 3000
+  }
+]
 ```
-
-Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying express applications you should be right at home just make sure to deploy the output of `remix build`
-
-- `build/`
-- `public/build/`
