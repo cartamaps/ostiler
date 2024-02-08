@@ -7,6 +7,7 @@
     "jsx": "react-jsx",
     "moduleResolution": "Bundler",
     "resolveJsonModule": true,
+    "module": "ES2022",
     "target": "ES2022",
     "strict": true,
     "allowJs": true,
@@ -16,6 +17,9 @@
     "paths": {
       "~/*": ["./app/*"]
     },
+    "types": [
+			"@cloudflare/workers-types"
+		],
 
     // Remix takes care of building everything in `remix build`.
     "noEmit": true

@@ -1,0 +1,14 @@
+name = "pmtiles-server"
+
+account_id = "c7de26e419dc27fe7583479167782236"
+workers_dev = true
+main = "tile-server/index.ts"
+compatibility_date = "2024-01-29"
+
+
+[[r2_buckets]]
+  binding = "TILE_BUCKET"
+  bucket_name = "tiles"
+
+[vars]
+  ALLOWED_ORIGINS = "http://localhost:3000"

@@ -47,6 +47,9 @@ module.exports = {
           typescript: {},
         },
       },
+      rule: {
+        "react/prop-types": "off",
+      },
     },
 
     // Typescript

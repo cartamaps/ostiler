@@ -1,0 +1,40 @@
+{
+  order pmtiles_proxy before reverse_proxy
+}
+
+(cors) {
+  @cors_preflight method OPTIONS
+  @cors header Origin {args[0]}
+
+  handle @cors_preflight {
+    header Access-Control-Allow-Origin "{args[0]}"
+    header Access-Control-Allow-Methods "GET, POST, PUT, PATCH, DELETE"
+    header Access-Control-Allow-Headers "Accept, Content-Type"
+    header Access-Control-Allow-Credentials true
+    header Access-Control-Max-Age "3600"
+    respond "" 204
+  }
+
+  handle @cors {
+    header Access-Control-Allow-Origin "{args[0]}"
+    header Access-Control-Allow-Methods "GET, POST, PUT, PATCH, DELETE"
+    header Access-Control-Allow-Headers "Accept, Content-Type"
+    header Access-Control-Allow-Credentials true
+  }
+}
+
+localhost:2019 {
+  import cors http://localhost:3000
+
+  handle_path /tiles/* {
+    pmtiles_proxy {
+      bucket s3://tiles?region=auto&endpoint=https://c7de26e419dc27fe7583479167782236.r2.cloudflarestorage.com
+      cache_size 256
+      public_url https://localhost:2019/tiles
+    }
+  }
+}
+
+:80 {
+  reverse_proxy web:3000
+}

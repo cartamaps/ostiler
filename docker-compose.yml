@@ -1,0 +1,58 @@
+version: "3"
+
+services:
+  caddy:
+    container_name: caddy
+    build:
+      context: .
+      dockerfile: ./caddy.Dockerfile
+    env_file:
+      - .env
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+      - "443:443/udp"
+      - "2019:2019"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile
+      - caddy_data:/data
+      - caddy_config:/config
+
+  # web:
+  #   container_name: web
+  #   build:
+  #     context: .
+  #     dockerfile: ./Dockerfile
+  #   env_file:
+  #     - .env
+  #   restart: always
+  #   ports:
+  #     - 3000:3000
+  #   depends_on:
+  #     - db
+  #   networks:
+  #     - ostiler
+
+  db:
+    image: postgres:16.1
+    container_name: db
+    restart: always
+    env_file:
+      - .env
+    volumes:
+      - db:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - ostiler
+
+volumes:
+  caddy_data:
+  caddy_config:
+  db:
+    driver: local
+
+networks:
+  ostiler:
+    driver: bridge
